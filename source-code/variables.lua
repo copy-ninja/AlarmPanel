@@ -7,7 +7,6 @@ function variables_set(name, value)
   f.close()
   dofile(fn)
   print("Heap: ", node.heap(), "Wrote: ", fn)
-  variables_load()
   collectgarbage()
 end
 

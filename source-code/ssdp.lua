@@ -1,21 +1,23 @@
 local ssdp_deviceType = "urn:schemas-konnected-io:device:AlarmPanel:1"
 local ssdp_deviceID = "uuid:8f655392-a778-4fee-97b9-4825918"..string.format("%x",node.chipid())
-local ssdp_deviceXML = "<?xml version=\"1.0\"?>\r\n" ..
-  "<root xmlns=\"urn:schemas-upnp-org:device-1-0\">\r\n" ..
-  "\t<specVersion><major>1</major><minor>0</minor></specVersion>\r\n" ..
-  "\t<URLBase>http://" .. wifi.sta.getip() .. ":80</URLBase>\r\n" ..
-  "\t<device>\r\n" ..
-  "\t\t<deviceType>" .. ssdp_deviceType .. "</deviceType>\r\n" ..
-  "\t\t<friendlyName>" .. device.name .. "</friendlyName>\r\n" ..
-  "\t\t<manufacturer>konnected.io</manufacturer>\r\n" ..
-  "\t\t<manufacturerURL>http://konnected.io/</manufacturerURL>\r\n" ..
-  "\t\t<modelDescription>Alarm Panel</modelDescription>\r\n" ..
-  "\t\t<modelName>" .. device.name .. "</modelName>\r\n" ..
-  "\t\t<modelNumber>" .. device.hwVersion .. "</modelNumber>\r\n" ..
-  "\t\t<serialNumber>" .. node.chipid() .. "</serialNumber>\r\n" ..
-  "\t\t<UDN>" .. ssdp_deviceID .. "</UDN>\r\n" ..
-  "\t\t<presentationURL>/</presentationURL>\r\n" ..
+local ssdp_deviceXML = table.concat({
+  "<?xml version=\"1.0\"?>\r\n",
+  "<root xmlns=\"urn:schemas-upnp-org:device-1-0\">\r\n",
+  "\t<specVersion><major>1</major><minor>0</minor></specVersion>\r\n",
+  "\t<URLBase>http://", wifi.sta.getip(), ":80</URLBase>\r\n",
+  "\t<device>\r\n",
+  "\t\t<deviceType>", ssdp_deviceType, "</deviceType>\r\n",
+  "\t\t<friendlyName>", device.name, "</friendlyName>\r\n",
+  "\t\t<manufacturer>konnected.io</manufacturer>\r\n",
+  "\t\t<manufacturerURL>http://konnected.io/</manufacturerURL>\r\n",
+  "\t\t<modelDescription>Alarm Panel</modelDescription>\r\n",
+  "\t\t<modelName>", device.name, "</modelName>\r\n",
+  "\t\t<modelNumber>", device.hwVersion, "</modelNumber>\r\n",
+  "\t\t<serialNumber>", node.chipid(), "</serialNumber>\r\n",
+  "\t\t<UDN>", ssdp_deviceID, "</UDN>\r\n",
+  "\t\t<presentationURL>/</presentationURL>\r\n",
   "\t</device>\r\n</root>\r\n"
+})
 
 net.multicastJoin(wifi.sta.getip(), "239.255.255.250")
 
